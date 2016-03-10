@@ -22,7 +22,7 @@ def get_recent_links(tag, number=5):
         ct += 1
         if ct > 15:
             break
-    final = image_filter(codes_url)  # contains the filtered urls having no click kik and push and followers /following
+    final = image_filter(codes_url)  # contains the list having filtered urls having no click kik and push and followers /following
 
 
 def image_filter(image_list):
@@ -31,17 +31,18 @@ def image_filter(image_list):
     following = []
     final = []
     for i in image_list:
-        resp = requests.get(i)
-        soup = bs4.BeautifulSoup(resp.content)
-        x = soup.findAll("meta")[6]["content"]
-        if "click" in x or "kik" in x or "push" in x:
-            continue
-        else:
-            print i
-            print x
-            urls.append(i)
-            #print soup.contents
-            #break
+        try:
+            resp = requests.get(i)
+            soup = bs4.BeautifulSoup(resp.content)
+            x = soup.findAll("meta")[6]["content"]
+            if "click" in x or "kik" in x or "push" in x:
+                continue
+            else:
+                print i
+                print x
+                urls.append(i)
+        except:
+            pass
     final.append(urls)
 
 
