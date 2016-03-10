@@ -1,7 +1,5 @@
 __name__ = "vutsuak"
 
-import urllib2
-import json
 import re
 import BeautifulSoup as bs4
 import requests
@@ -20,11 +18,31 @@ def get_recent_links(tag, number=5):
     codes_url = ["https://www.instagram.com/p/" for i in range(15)]
     for i in raw:
         codes.append(i.split(",")[0])
-        codes_url[ct - 1] = (codes_url[ct - 1] +( codes[ct - 1]).split(":")[1:11][0][1:-1])
-        print codes_url[ct-1]
+        codes_url[ct - 1] = (codes_url[ct - 1] + (codes[ct - 1]).split(":")[1:11][0][1:-1])
         ct += 1
         if ct > 15:
             break
+    final = image_filter(codes_url)  # contains the filtered urls having no click kik and push and followers /following
+
+
+def image_filter(image_list):
+    urls = []
+    followers = []
+    following = []
+    final = []
+    for i in image_list:
+        resp = requests.get(i)
+        soup = bs4.BeautifulSoup(resp.content)
+        x = soup.findAll("meta")[6]["content"]
+        if "click" in x or "kik" in x or "push" in x:
+            continue
+        else:
+            print i
+            print x
+            urls.append(i)
+            #print soup.contents
+            #break
+    final.append(urls)
 
 
 if __name__ == "vutsuak":
