@@ -42,7 +42,7 @@ def image_filter(image_list):
                 print x
                 urls.append(i)
         except:
-            pass
+            continue
     final.append(urls)
 
 
