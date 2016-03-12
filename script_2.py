@@ -22,14 +22,15 @@ def get_recent_links(tag, number=5):
         ct += 1
         if ct > 15:
             break
-    final = image_filter(codes_url)  # contains the list having filtered urls having no click kik and push and followers /following
+    x= image_filter(codes_url)  # contains 2 lists having filtered urls having no click kik and push and owner's name
+    print x[0]
+    print x[1]
 
 
 def image_filter(image_list):
+    final_urls=[]
     urls = []
-    followers = []
-    following = []
-    final = []
+    usernames=[]
     for i in image_list:
         try:
             resp = requests.get(i)
@@ -38,12 +39,19 @@ def image_filter(image_list):
             if "click" in x or "kik" in x or "push" in x:
                 continue
             else:
-                print i
-                print x
+                #print i
+                #print x
                 urls.append(i)
+                script = soup.find("script", text=re.compile('window\._sharedData'))
+                pattern=re.compile(r'"owner":{"username":".+""')
+                usernames.append(pattern.findall(script)[0].split(":")[2].split(",")[0])
+                #print usernames[-1]
+
         except:
             continue
-    final.append(urls)
+    final_urls.append(urls)
+    final_urls.append(usernames)
+    return final_urls
 
 
 if __name__ == "vutsuak":
