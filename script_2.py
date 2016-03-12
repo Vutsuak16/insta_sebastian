@@ -24,9 +24,21 @@ def get_recent_links(tag, number=5):
             break
     x= image_filter(codes_url)  # contains 2 lists having filtered urls having no click kik and push and owner's name
     print x[0]
-    print x[1]
+    print x[1] #user names who posted the pic printed
+    follows=[]
+    followers=[]
+    for i in x[1]:
+        i= "https://www.instagram.com/"+str(i)[1:-1]
+        resp=requests.get(i)
+        soup=bs4.BeautifulSoup(resp.content)
+        script = soup.find("script", text=re.compile('window\._sharedData'))
+        pat1=re.compile(r'"follows":{".+"')
+        list_temp=pat1.findall(script)
+        followers.append(list_temp[0].split(",")[0])
+        follows.append(list_temp[0].split(",")[2])
 
-
+    print follows
+    print followers
 def image_filter(image_list):
     final_urls=[]
     urls = []
@@ -45,7 +57,6 @@ def image_filter(image_list):
                 script = soup.find("script", text=re.compile('window\._sharedData'))
                 pattern=re.compile(r'"owner":{"username":".+""')
                 usernames.append(pattern.findall(script)[0].split(":")[2].split(",")[0])
-                #print usernames[-1]
 
         except:
             continue
