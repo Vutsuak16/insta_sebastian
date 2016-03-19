@@ -27,12 +27,19 @@ def get_recent_links(tag, number=5):
     print x[1] #user names who posted the pic printed
     follows=[]
     followers=[]
+    biotext=[]
     for i in x[1]:
         i= "https://www.instagram.com/"+str(i)[1:-1]
         resp=requests.get(i)
         soup=bs4.BeautifulSoup(resp.content)
         script = soup.find("script", text=re.compile('window\._sharedData'))
         pat1=re.compile(r'"follows":{".+"')
+        pat2=re.compile(r'"biography":".+"')
+        biotext_temp=pat2.findall(script)
+        try:
+             biotext.append(biotext_temp[0].encode('ascii','ignore').split("media")[0])
+        except:
+            pass
         list_temp=pat1.findall(script)
         followers.append(list_temp[0].split(",")[0])
         follows.append(list_temp[0].split(",")[2])
