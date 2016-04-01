@@ -62,8 +62,6 @@ def image_filter(image_list):
             if "click" in x or "kik" in x or "push" in x:
                 continue
             else:
-                # print i
-                # print x
                 urls.append(i)
                 script = soup.find("script", text=re.compile('window\._sharedData'))
                 pattern = re.compile(r'"owner":{"username":".+""')
