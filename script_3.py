@@ -5,7 +5,7 @@ import BeautifulSoup as bs4
 import requests
 
 
-def get_recent_links(tag, number=5):
+def get_recent_links(tag):
     url = "https://www.instagram.com/explore/tags/"
     site1 = url + tag[0] + "/"
     resp = requests.get(site1)
