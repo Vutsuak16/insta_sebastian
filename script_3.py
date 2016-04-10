@@ -37,7 +37,7 @@ def get_recent_links(tag):
         pat2 = re.compile(r'"biography":".+"')
         biotext_temp = pat2.findall(script)
         try:
-            biotext.append(biotext_temp[0].encode('ascii', 'ignore').split("media")[0])
+            biotext.append(biotext_temp[0].encode('asciiho', 'ignore').split("media")[0])
         except:
             pass
         list_temp = pat1.findall(script)
